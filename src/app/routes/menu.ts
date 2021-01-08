@@ -9,12 +9,12 @@
 import { LimitMenuItem } from '@core/routes/types'
 
 export const menuRoutes: LimitMenuItem = {
-  nodePath: '/',
+  nodePath: '/admin',
   limitLabel: '侧边栏目录',
   label: '',
   children: [
     {
-      path: '/',
+      path: '/admin',
       label: 'Dashboard',
       nodePath: 'dashboard',
       exact: true,
@@ -41,6 +41,8 @@ export const menuRoutes: LimitMenuItem = {
         },
       ],
     },
+    // 用户管理
+    // 模块管理
     {
       label: '系统管理',
       icon: 'fa fa-wrench',

@@ -9,18 +9,18 @@ import { onAuth } from './user'
 export const entry = [
   {
     type: 'preset-route', // 路由组件
-    path: '/login',
+    path: '/admin/login',
     pathToComponent: true,
   },
   {
     type: 'preset-route', // 路由组件
-    path: '/register',
+    path: '/admin/register',
     pathToComponent: true,
   },
   {
     type: 'private-route', // 鉴权路由
-    path: '/',
-    redirect: '/login',
+    path: '/admin',
+    redirect: '/admin/login',
     children: layout,
     onAuth, // 每次页面鉴权 需要调用的认证方法
   },

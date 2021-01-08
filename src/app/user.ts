@@ -83,7 +83,7 @@ export function getUserInfo(callback?: (info: any) => void) {
 export function logout(option?: { tip?: string; useApi?: boolean }) {
   const { tip = '您已经成功退出登录', useApi = false } = option || {}
 
-  app.routerHistory.push('/login')
+  app.routerHistory.push('/admin/login')
   toast.info(tip, '系统提示')
   clearStore(storeKeys.auth)
 
