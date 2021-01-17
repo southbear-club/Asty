@@ -1,0 +1,11 @@
+{
+    "header": {
+        "version": "1.0.0",
+        "payload": "json", // json 和 二进制
+        "time": 1234,
+        "seq": 0,
+        "ack": 0,
+        "security type": "none",
+        "len": 0
+    }
+}

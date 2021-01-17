@@ -23,4 +23,18 @@ cd .. && rm -rf glog-0.4.0
 
 sudo apt-get install -y cmake libgtest-dev && cd /usr/src/googletest && sudo cmake . && sudo make && sudo make install && sudo rm /usr/src/googletest -rf && cd -
 
+# wget https://github.com/DaveGamble/cJSON/archive/v1.7.14.tar.gz && tar -xf v1.7.14.tar.gz && rm v1.7.14.tar.gz 
+# cd cJSON-1.7.14 && make && sudo make install
+# cd .. && rm -rf cJSON-1.7.14
+# wget https://github.com/eclipse/mosquitto/archive/v2.0.4.tar.gz && tar -xf v2.0.4.tar.gz && rm v2.0.4.tar.gz
+# cd mosquitto-2.0.4 && make -j4 && sudo make install
+# cd .. && rm -rf mosquitto-2.0.4
+
+wget http://repo.mosquitto.org/debian/mosquitto-repo.gpg.key
+cd /etc/apt/sources.list.d/
+# 根据你的系统版本选一个
+sudo wget http://repo.mosquitto.org/debian/mosquitto-jessie.list
+sudo wget http://repo.mosquitto.org/debian/mosquitto-stretch.list
+sudo wget http://repo.mosquitto.org/debian/mosquitto-buster.list
+sudo apt-get update && sudo apt-get install mosquitto
 cd ..

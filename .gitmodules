@@ -1,0 +1,9 @@
+[submodule "thirdparty/pubsubclient"]
+	path = thirdparty/pubsubclient
+	url = https://github.com/knolleary/pubsubclient
+[submodule "src/core/micro_kernel"]
+	path = src/common/micro_kernel
+	url = https://github.com/southbear-club/micro_kernel
+[submodule "src/common/micro_kernel"]
+	path = src/common/micro_kernel
+	url = https://github.com/southbear-club/micro_kernel
