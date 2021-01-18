@@ -50,7 +50,7 @@ public:
 
     // 流式消息处理
     virtual bool stream(
-        std::shared_ptr<IPluginStream<AstyGwDomainType>> &stream) override;
+        std::shared_ptr<IPluginStream<AstyGwDomainType>> stream) override;
 
 private:
     domain_basic_param_t param_;

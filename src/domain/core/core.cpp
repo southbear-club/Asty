@@ -70,7 +70,7 @@ bool DomainCore::message(const PluginMessage<AstyGwDomainType> &request,
 
 // 流式消息处理
 bool DomainCore::stream(
-    std::shared_ptr<IPluginStream<AstyGwDomainType>> &stream) {
+    std::shared_ptr<IPluginStream<AstyGwDomainType>> stream) {
     return true;
 }
 
