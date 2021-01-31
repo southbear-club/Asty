@@ -1,0 +1,41 @@
+{
+    "system": {
+        "system": {
+            "log lv": "INFO",
+            "work mode": "mutli thread"
+        }
+    },
+    "module": {
+        "basic": {
+            "module manager": {
+                "log lv": "INFO",
+                "max module cnt": 1024,
+                "max app cnt": 6
+            },
+            "user manage": {
+                "log lv": "WARNING",
+                "max user cnt": 100,
+                "encrypt type": "aes256"
+            }
+        },
+        "services": {
+            "admin": {
+                "log lv": "WARNING"
+            }
+        },
+        "open api": {
+            "http": {
+                "log lv": "INFO",
+                "net": {
+                    "listen port": 9001,
+                    "max connectios": 100000,
+                    "support tcp": true,
+                    "support udp": false
+                }
+            },
+            "device gateway": {
+                "log lv": "INFO"
+            }
+        }
+    }
+}
