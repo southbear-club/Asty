@@ -40,8 +40,7 @@ ModuleManager::~ModuleManager() {}
 
 void ModuleManager::run(const std::initializer_list<module_reg_t> &li) {
     size_t cnt = 0;
-    core::json_t res;
-    core::json_t param;
+    std::list<std::shared_ptr<core::IModule>> cur_module;
 
     for (auto &item : li) {
         if (cnt > module_max_) {
@@ -51,7 +50,7 @@ void ModuleManager::run(const std::initializer_list<module_reg_t> &li) {
         }
         cnt++;
 
-        if (!item.module->init(item.param, res)) {
+        if (!item.module->init(item.param)) {
             item.module->set_status(core::E_MODULE_ST_BAD);
             ASTY_LOG(WARNING) << "module : " << item.module->module_info().name
                               << "init failed\n";
@@ -63,17 +62,20 @@ void ModuleManager::run(const std::initializer_list<module_reg_t> &li) {
         modules_.insert(
             std::pair<core::module_identi_t, std::shared_ptr<core::IModule>>(
                 identi, item.module));
+        
+        cur_module.push_back(item.module);
     }
 
-    for (auto &item : modules_) {
-        if (!item.second->start(param, res)) {
+    // 为了保证顺序启动，使用缓存列表
+    for (auto &item : cur_module) {
+        if (!item->start(nullptr)) {
             // 启动失败则标记为异常
-            item.second->set_status(core::E_MODULE_ST_BAD);
-            ASTY_LOG(WARNING) << "module : " << item.second->module_info().name
+            item->set_status(core::E_MODULE_ST_BAD);
+            ASTY_LOG(WARNING) << "module : " << item->module_info().name
                               << "start failed\n";
         } else {
-            ASTY_LOG(INFO) << "module : [" << item.second->module_info().name << "] identi : [" << item.second->module_info().identifier << "] running\n";
-            item.second->set_status(core::E_MODULE_ST_RUNNING);
+            ASTY_LOG(INFO) << "module : [" << item->module_info().name << "] identi : [" << item->module_info().identifier << "] running\n";
+            item->set_status(core::E_MODULE_ST_RUNNING);
         }
     }
 
@@ -81,12 +83,9 @@ void ModuleManager::run(const std::initializer_list<module_reg_t> &li) {
 }
 
 void ModuleManager::stop(void) {
-    core::json_t res;
-    core::json_t param;
-
     for (auto &item : modules_) {
         if (core::E_MODULE_ST_RUNNING == item.second->status()) {
-            item.second->stop(param, res);
+            item.second->stop(nullptr);
             item.second->set_status(core::E_MODULE_ST_STOP);
         }
     }
@@ -134,8 +133,8 @@ core::module_base_info_t ModuleManager::module_query(
 // 模块动态操作
 // 模块加载
 bool ModuleManager::module_load(std::shared_ptr<core::IModule> module,
-                                const core::json_t &param, core::json_t &res) {
-    if (!module->init(param, res)) {
+                                void *param) {
+    if (!module->init(param)) {
         module->set_status(core::E_MODULE_ST_BAD);
         ASTY_LOG(WARNING) << "module : " << module->module_info().name
                             << "init failed\n";
@@ -152,8 +151,7 @@ bool ModuleManager::module_load(std::shared_ptr<core::IModule> module,
 
 // 模块卸载
 bool ModuleManager::module_unload(const core::module_identi_t &identifier,
-                                  const core::json_t &param,
-                                  core::json_t &res) {
+                                  void *param) {
     std::unique_lock<std::mutex> lck(mtx_);
     auto item = modules_.find(identifier);
 
@@ -162,8 +160,8 @@ bool ModuleManager::module_unload(const core::module_identi_t &identifier,
         return false;
     }
 
-    item->second->stop(param, res);
-    item->second->exit(param, res);
+    item->second->stop(param);
+    item->second->exit(param);
 
     // 直接俄删除
     modules_.erase(item);
@@ -173,7 +171,7 @@ bool ModuleManager::module_unload(const core::module_identi_t &identifier,
 
 // 模块启动
 bool ModuleManager::module_start(const core::module_identi_t &identifier,
-                                 const core::json_t &param, core::json_t &res) {
+                                 void *param) {
     std::unique_lock<std::mutex> lck(mtx_);
     auto item = modules_.find(identifier);
 
@@ -183,7 +181,7 @@ bool ModuleManager::module_start(const core::module_identi_t &identifier,
     }
 
     if (core::E_MODULE_ST_STOP == item->second->status()) {
-        if (!item->second->start(param, res)) {
+        if (!item->second->start(param)) {
             // 启动失败则标记为异常
             item->second->set_status(core::E_MODULE_ST_BAD);
             ASTY_LOG(WARNING) << "module : " << item->second->module_info().name << "start failed\n";
@@ -200,7 +198,7 @@ bool ModuleManager::module_start(const core::module_identi_t &identifier,
 
 // 模块停止
 bool ModuleManager::module_stop(const core::module_identi_t &identifier,
-                                const core::json_t &param, core::json_t &res) {
+                                void *param) {
     std::unique_lock<std::mutex> lck(mtx_);
     auto item = modules_.find(identifier);
 
@@ -210,7 +208,7 @@ bool ModuleManager::module_stop(const core::module_identi_t &identifier,
     }
 
     if (core::E_MODULE_ST_RUNNING == item->second->status()) {
-        if (!item->second->stop(param, res)) {
+        if (!item->second->stop(param)) {
             item->second->set_status(core::E_MODULE_ST_BAD);
             ASTY_LOG(WARNING) << "module : " << item->second->module_info().name << "stop failed\n";
             return false;
@@ -225,8 +223,7 @@ bool ModuleManager::module_stop(const core::module_identi_t &identifier,
 
 // 模块重启
 bool ModuleManager::module_restart(const core::module_identi_t &identifier,
-                                   const core::json_t &param,
-                                   core::json_t &res) {
+                                   void *param) {
     std::unique_lock<std::mutex> lck(mtx_);
     auto item = modules_.find(identifier);
 
@@ -240,12 +237,12 @@ bool ModuleManager::module_restart(const core::module_identi_t &identifier,
     }
 
     if (core::E_MODULE_ST_RUNNING == item->second->status()) {
-        item->second->stop(param, res);
+        item->second->stop(param);
     }
 
     // 强制置为为停止状态
     item->second->set_status(core::E_MODULE_ST_STOP);
-    if (item->second->start(param, res)) {
+    if (item->second->start(param)) {
         item->second->set_status(core::E_MODULE_ST_RUNNING);
         return true;
     }

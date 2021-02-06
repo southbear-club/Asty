@@ -73,10 +73,10 @@ public:
     IModule(const module_base_info_t &info) : info_(info) {}
     virtual ~IModule() {}
 
-    virtual bool init(const core::json_t &param, core::json_t &res) = 0;
-    virtual bool start(const core::json_t &param, core::json_t &res) = 0;
-    virtual bool stop(const core::json_t &param, core::json_t &res) = 0;
-    virtual bool exit(const core::json_t &param, core::json_t &res) = 0;
+    virtual bool init(void *param) = 0;
+    virtual bool start(void *param) = 0;
+    virtual bool stop(void *param) = 0;
+    virtual bool exit(void *param) = 0;
 
     virtual module_st_t status(void) {
         return st_;

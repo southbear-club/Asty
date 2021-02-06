@@ -124,10 +124,10 @@ void init_global_source(int argc, char **argv) {
 
 #ifdef DEBUG
     // debug模式设置coredump，1Gb coredump文件大小限制
-    if (!utils::setup_coredump(ASTY_COREDUMP_PATH, 1024 * 1024 * 1024)) {
-        std::cout << "setup coredump error." << std::endl;
-        exit(-1);
-    }
+    // if (!utils::setup_coredump(ASTY_COREDUMP_PATH, 1024 * 1024 * 1024)) {
+    //     std::cout << "setup coredump error." << std::endl;
+    //     exit(-1);
+    // }
 #endif
 
     // 初始化日志

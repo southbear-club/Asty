@@ -14,4 +14,7 @@ src/core/version.o \
 src/core/asty_config.o \
 src/core/asty_log.o \
 src/module/basic/module_manage/module_manage.o \
+src/module/basic/user_manage/user_db_impl.o \
+src/module/basic/user_manage/user_manage_impl.o \
+src/module/basic/user_manage/user_manager_module.o \
 src/module/open_api/device_gw/device_gateway.o

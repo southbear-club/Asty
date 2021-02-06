@@ -22,7 +22,7 @@ namespace basic {
 // 模块注册信息
 typedef struct {
     std::shared_ptr<core::IModule> module;  ///< 模块
-    core::json_t param;                     ///< 模块初始化参数
+    void *param;                     ///< 模块初始化参数
 } module_reg_t;
 
 class ModuleManager {
@@ -47,23 +47,23 @@ public:
     // 模块动态操作
     // 模块加载
     bool module_load(std::shared_ptr<core::IModule> module,
-                     const core::json_t &param, core::json_t &res);
+                     void *param);
 
     // 模块卸载
     bool module_unload(const core::module_identi_t &identifier,
-                       const core::json_t &param, core::json_t &res);
+                       void *param);
 
     // 模块启动
     bool module_start(const core::module_identi_t &identifier,
-                      const core::json_t &param, core::json_t &res);
+                      void *param);
 
     // 模块停止
     bool module_stop(const core::module_identi_t &identifier,
-                     const core::json_t &param, core::json_t &res);
+                     void *param);
 
     // 模块重启
     bool module_restart(const core::module_identi_t &identifier,
-                        const core::json_t &param, core::json_t &res);
+                        void *param);
 
 private:
     size_t module_max_;

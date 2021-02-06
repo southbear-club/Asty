@@ -19,13 +19,13 @@ public:
     DeviceGwOpenApiModule();
     virtual ~DeviceGwOpenApiModule();
 
-    virtual bool init(const core::json_t &param, core::json_t &res) override { return true; }
+    virtual bool init(void *param) override { return true; }
 
-    virtual bool start(const core::json_t &param, core::json_t &res) override { return true; }
+    virtual bool start(void *param) override { return true; }
 
-    virtual bool stop(const core::json_t &param, core::json_t &res) override { return true; }
+    virtual bool stop(void *param) override { return true; }
 
-    virtual bool exit(const core::json_t &param, core::json_t &res) override { return true; }
+    virtual bool exit(void *param) override { return true; }
 };
 
 }  // namespace op_dev_gw
