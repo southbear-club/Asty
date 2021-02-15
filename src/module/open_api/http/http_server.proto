@@ -1,0 +1,12 @@
+syntax="proto2";
+package asty.op_http_srv;
+
+option cc_generic_services = true;
+
+message HttpRequest {};
+message HttpResponse {};
+
+service HttpService {
+  rpc open_api(HttpRequest) returns (HttpResponse);
+  rpc admin_api(HttpRequest) returns (HttpResponse);
+};

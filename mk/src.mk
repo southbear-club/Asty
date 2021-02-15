@@ -17,4 +17,13 @@ src/module/basic/module_manage/module_manage.o \
 src/module/basic/user_manage/user_db_impl.o \
 src/module/basic/user_manage/user_manage_impl.o \
 src/module/basic/user_manage/user_manager_module.o \
-src/module/open_api/device_gw/device_gateway.o
+src/module/open_api/device_gw/device_gateway.o \
+src/module/open_api/http/midwares/midware_digest.o \
+src/module/open_api/http/services/new_year.o \
+src/module/open_api/http/http_auth.o \
+src/module/open_api/http/http_user.o \
+src/module/open_api/http/http_midware.o \
+src/module/open_api/http/http_router.o \
+src/module/open_api/http/http_uri_list.o \
+src/module/open_api/http/http_server.pb.o \
+src/module/open_api/http/http_server.o

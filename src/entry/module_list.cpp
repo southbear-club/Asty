@@ -12,6 +12,7 @@
 #include "module/basic/module_manage/module_manage.hpp"
 #include "module/basic/user_manage/user_manager_module.hpp"
 #include "module/open_api/device_gw/device_gateway.hpp"
+#include "module/open_api/http/http_server.hpp"
 
 namespace asty {
 
@@ -26,6 +27,7 @@ void setup_module(void) {
 
     module_manager.run({
         {ASTY_MODULE_REF(basic_user_manager), &mongo_client},
+        {ASTY_MODULE_REF(openapi_http_server), nullptr},
         {ASTY_MODULE_REF(openapi_device_gateway), &param},
     });
 }

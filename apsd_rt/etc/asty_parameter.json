@@ -24,10 +24,11 @@
             }
         },
         "open api": {
-            "http": {
+            "http server": {
                 "log lv": "INFO",
                 "net": {
                     "listen port": 9001,
+                    "internal port": 9002,
                     "max connectios": 100000,
                     "support tcp": true,
                     "support udp": false

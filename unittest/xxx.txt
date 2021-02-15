@@ -1,0 +1,43 @@
+GET /digest-auth/auth/user/pass HTTP/1.1
+Host: httpbin.org
+User-Agent: python-requests/2.22.0
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+
+HTTP/1.1 401 UNAUTHORIZED
+Date: Sat, 13 Feb 2021 05:06:12 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 0
+Connection: keep-alive
+Server: gunicorn/19.9.0
+WWW-Authenticate: Digest realm="me@kennethreitz.com", nonce="a7582532244466e980a4637e5a932554", qop="auth", opaque="c7464cc287b4bc7526766a70a3f3e263", algorithm=MD5, stale=FALSE
+Set-Cookie: stale_after=never; Path=/
+Set-Cookie: fake=fake_value; Path=/
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+GET /digest-auth/auth/user/pass HTTP/1.1
+Host: httpbin.org
+User-Agent: python-requests/2.22.0
+Accept-Encoding: gzip, deflate
+Accept: */*
+Connection: keep-alive
+Cookie: stale_after=never; fake=fake_value
+Authorization: Digest username="user", realm="me@kennethreitz.com", nonce="a7582532244466e980a4637e5a932554", uri="/digest-auth/auth/user/pass", response="f49f10f0df09d8cc18954e377c5879df", opaque="c7464cc287b4bc7526766a70a3f3e263", algorithm="MD5", qop="auth", nc=00000001, cnonce="eff7cdfb8dee36d4"
+
+HTTP/1.1 200 OK
+Date: Sat, 13 Feb 2021 05:06:12 GMT
+Content-Type: application/json
+Content-Length: 47
+Connection: keep-alive
+Server: gunicorn/19.9.0
+Set-Cookie: fake=fake_value; Path=/
+Set-Cookie: stale_after=never; Path=/
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+{
+  "authenticated": true, 
+  "user": "user"
+}

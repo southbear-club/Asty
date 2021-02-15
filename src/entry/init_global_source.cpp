@@ -21,6 +21,7 @@
 #include <stdexcept>
 #include <string>
 #include <thread>
+#include <gflags/gflags.h>
 #include "common/common.hpp"
 #include "common/utils/asty_coredump.hpp"
 #include "configure.hpp"
@@ -118,6 +119,8 @@ private:
 };
 
 void init_global_source(int argc, char **argv) {
+    google::ParseCommandLineFlags(&argc, &argv, true);
+
     if (!AloneProccess::check(PID_FILE)) {
         exit(-1);
     }
